@@ -10,13 +10,13 @@ npm install
 ```
 
 ```bash
-npm start
+node server.js
 ```
 
 ### General running
 
 ```bash
-npm start
+node server.js
 ```
 
 ## Resources
