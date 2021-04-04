@@ -1,25 +1,51 @@
 import axios from 'axios';
+import models from '../models';
 
+// This class handles all user based mongo requests
 class UserService {
 
-    static async createUser(req) {
+    static async createUser(req, password) {
+        const user = new models.User({
+            name: req.body.name,
+            password: password,
+            email: req.body.email,
+            title: req.body.title,
+            loggedIn: true
+        });
 
+        await user.save();
+
+        return user;
     }
 
-    static async signInUser(req) {
-
+    static async findUserByEmail(email) {
+        const user = await models.User.findOne({ email: email });
+        return user;
     }
 
-    static async getUserInfo(id) {
-
+    static async findUserById(id) {
+        const user = await models.User.findById(id);
+        return user;
     }
 
-    static async updateUser(req) {
+    static async updateUser(id, req, password) {
+        const user = await models.User.findByIdAndUpdate(id, {
+            name: req.body.name,
+            password: password,
+            email: req.body.email,
+            title: req.body.title,
+            loggedIn: true
+        });
 
+        return user;
     }
 
-    static async logoutUser (id) {
+    static async logoutUser(id) {
+        const user = await models.User.findByIdAndUpdate(id, {
+            loggedIn: true
+        });
 
+        return user;
     }
 }
 
