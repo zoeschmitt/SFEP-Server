@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import PostsController from '../api/PostsController';
-import UserController from '../api/userController';
-import verifyToken from '../services/tokenService';
+import PostsController from '../api/postsController.js';
+import UserController from '../api/userController.js';
+import { verifyToken } from '../services/tokenService.js';
 
 const routes = Router();
 

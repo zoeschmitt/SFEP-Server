@@ -1,7 +1,7 @@
-import UserService from "../services/userService";
+import UserService from "../services/userService.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { newUserValidation, returningUserValidation } from '../validations/userValidation';
+import { newUserValidation, returningUserValidation } from '../validations/userValidation.js';
 
 class UserController {
 
@@ -21,15 +21,15 @@ class UserController {
 
             //creating token for authenticated use of website
             const token = jwt.sign({
-                name: user.name,
-                id: user._id,
+                name: newUser.name,
+                id: newUser._id,
             },
                 process.env.TOKEN_SECRET
             );
 
             return res.status(200).json({
-                newUser,
-                token,
+                user: newUser,
+                token: token,
                 msg: `User created`
             });
         } catch (e) {
@@ -80,12 +80,12 @@ class UserController {
     static async getUser(req, res) {
         try {
             //verifying request query 
-            if (req.query.userId == undefined) {
+            if (req.params.userId == undefined) {
                 return res.status(400).json({ error: 'No userId specified' });
             }
 
             //finding matching email
-            const user = await UserService.findUserById(req.query.userId);
+            const user = await UserService.findUserById(req.params.userId);
             if (!user) return res.status(400).json({ error: "Incorrect Email" });
 
             return res.status(200).json({
@@ -108,7 +108,7 @@ class UserController {
                 return res.status(400).json({ error: error.details[0].message });
             }
 
-            if (req.query.userId == undefined) {
+            if (req.params.userId == undefined) {
                 return res.status(400).json({ error: 'No userId specified' });
             }
 
@@ -116,7 +116,7 @@ class UserController {
             const salt = await bcrypt.genSalt(10);
             const password = await bcrypt.hash(req.body.password, salt);
 
-            const user = await UserService.updateUser(req.query.userId, req.body, password)
+            const user = await UserService.updateUser(req.params.userId, req.body, password)
 
             return res.status(200).json({
                 user,
@@ -133,11 +133,11 @@ class UserController {
     static async logout(req, res) {
         try {
             //verifying request query 
-            if (req.query.userId == undefined) {
+            if (req.params.userId == undefined) {
                 return res.status(400).json({ error: 'No userId specified' });
             }
 
-            const user = await UserService.updateUser(req.query.userId);
+            const user = await UserService.updateUser(req.params.userId);
 
             return res.status(200).json({
                 user,

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import models from '../models';
+import models from '../models/index.js';
 
 // This class handles all user based mongo requests
 class UserService {
@@ -42,7 +42,7 @@ class UserService {
 
     static async logoutUser(id) {
         const user = await models.User.findByIdAndUpdate(id, {
-            loggedIn: true
+            loggedIn: false
         });
 
         return user;

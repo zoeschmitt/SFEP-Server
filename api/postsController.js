@@ -1,4 +1,4 @@
-import PostsService from "../services/postsService";
+import PostsService from "../services/postsService.js";
 
 class PostsController {
 
