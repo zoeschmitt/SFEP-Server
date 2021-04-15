@@ -1,28 +1,43 @@
 import axios from 'axios';
+import models from '../models/index.js';
 
 class PostsService {
 
     static async getAllPosts() {
-        var posts = [];
-
-        for (var tag in tags) {
-            const res = await axios.get('https://api.hatchways.io/assessment/blog/posts', {
-                headers: {
-                    'Content-Type': 'application/json',
-                }, params: { tag: tag }
-            });
-            posts.push(res);
-        }
-
+        var posts = await models.Post.find({});
         return posts != null ? posts : 'No posts found';
     }
 
-    static async createPost(req) {
+    static async createPost(req, userId) {
+        const post = new models.Post({
+            userId: userId,
+            title: req.body.title,
+            body: req.body.body,
+            userName: req.body.userName,
+            userTitle: req.body.userTitle,
+            likes: 0,
+            dislikes: 0,
+            credibleVotes: 0,
+            uncredibleVotes: 0
+        });
 
+        await post.save();
+
+        return post;
     }
 
-    static async searchPost(req) {
+    static async searchPosts(query) {
+        var posts = [];
+        var filteredPosts = [];
+        posts = await models.Post.find({});
+        for (i = 0; i < posts.length; i++) {
+            var regex = new RegExp(query, 'gi');
+            if (regex.test(posts[i].body) || regex.test(posts[i].title)) {
+                filteredPosts.push(posts[i]);
+            }
+        }
 
+        return filteredPosts.length > 0 ? filteredPosts : 'No posts found';
     }
 
     static async getDiscussion() {

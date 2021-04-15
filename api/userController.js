@@ -1,7 +1,7 @@
 import UserService from "../services/userService.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { newUserValidation, returningUserValidation } from '../validations/userValidation.js';
+import { newUserValidation, returningUserValidation } from '../validations/postValidation.js';
 
 class UserController {
 
