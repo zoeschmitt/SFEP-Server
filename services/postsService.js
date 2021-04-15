@@ -1,4 +1,3 @@
-import axios from 'axios';
 import models from '../models/index.js';
 
 class PostsService {
@@ -40,20 +39,41 @@ class PostsService {
         return filteredPosts.length > 0 ? filteredPosts : 'No posts found';
     }
 
-    static async getDiscussion() {
-
+    static async getDiscussion(postId) {
+        var discussion = await models.Comment.find({ postId: postId });
+        return discussion != null ? discussion : 'No discussion yet';
     }
 
     static async createComment(req) {
+        const comment = new models.Comment({
+            postId: req.body.postId,
+            userId: req.body.userId,
+            text: req.body.text,
+            userName: req.body.userName,
+            userTitle: req.body.userTitle,
+        });
 
+        await comment.save();
+
+        return comment;
     }
 
-    static async deletePost(req, res) {
-
+    static async deletePost(postId) {
+        const res = await models.Post.deleteOne({ _id: postId });
+        if (res.ok == 1) {
+            return true
+        } else {
+            return false
+        }
     }
 
-    static async deleteComment(req, res) {
-
+    static async deleteComment(commentId) {
+        const res = await models.Comment.deleteOne({ _id: commentId });
+        if (res.ok == 1) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 

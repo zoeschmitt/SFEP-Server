@@ -1,4 +1,3 @@
-import axios from 'axios';
 import models from '../models/index.js';
 
 // This class handles all user based mongo requests

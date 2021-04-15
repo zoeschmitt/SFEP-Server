@@ -9,3 +9,14 @@ export const postValidator = (data) => {
     });
     return schema.validate(data);
 };
+
+export const commentValidator = (data) => {
+    const schema = Joi.object({
+        postId: Joi.string().required(),
+        userId: Joi.string().required(),
+        text: Joi.string().required(),
+        userName: Joi.string().required(),
+        userTitle: Joi.string().required(),
+    });
+    return schema.validate(data);
+};
