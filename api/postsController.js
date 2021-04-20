@@ -1,5 +1,5 @@
 import PostsService from "../services/postsService.js";
-import { commentValidator, postValidator } from '../validations/userValidation.js';
+import { commentValidator, postValidator } from '../validations/postValidation.js';
 
 class PostsController {
 
@@ -82,7 +82,7 @@ class PostsController {
         //auth
         try {
             //verifying request body 
-            const { error } = postValidator(req.body);
+            const { error } = commentValidator(req.body);
 
             if (error) {
                 return res.status(400).json({ error: error.details[0].message });

@@ -28,6 +28,7 @@ class PostsService {
     static async searchPosts(query) {
         var posts = [];
         var filteredPosts = [];
+        var i = 0;
         posts = await models.Post.find({});
         for (i = 0; i < posts.length; i++) {
             var regex = new RegExp(query, 'gi');

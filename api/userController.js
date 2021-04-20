@@ -1,7 +1,7 @@
 import UserService from "../services/userService.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { newUserValidation, returningUserValidation } from '../validations/postValidation.js';
+import { newUserValidation, returningUserValidation } from '../validations/userValidation.js';
 
 class UserController {
 
@@ -116,7 +116,7 @@ class UserController {
             const salt = await bcrypt.genSalt(10);
             const password = await bcrypt.hash(req.body.password, salt);
 
-            const user = await UserService.updateUser(req.params.userId, req.body, password)
+            const user = await UserService.updateUser(req.params.userId, req, password)
 
             return res.status(200).json({
                 user,
@@ -137,7 +137,7 @@ class UserController {
                 return res.status(400).json({ error: 'No userId specified' });
             }
 
-            const user = await UserService.updateUser(req.params.userId);
+            const user = await UserService.logoutUser(req.params.userId);
 
             return res.status(200).json({
                 user,

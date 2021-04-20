@@ -7,7 +7,7 @@ import Post from './post.js';
 dotenv.config();
 
 const connectDb = () => {
-  return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true });
+  return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true , useUnifiedTopology: true});
 };
  
 const models = { User, Comment, Post };
