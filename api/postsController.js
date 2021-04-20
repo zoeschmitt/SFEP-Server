@@ -1,52 +1,150 @@
-import PostsService from "../services/postsService";
+import PostsService from "../services/postsService.js";
+import { commentValidator, postValidator } from '../validations/postValidation.js';
 
 class PostsController {
 
     static async fetchPosts(req, res) {
-        // validate the request has a tag
-        if (req.query.tags == null) {
-            return res.status(400).json({
-                msg: 'You must include a search tag'
-            });
-        }
-        // try to get all posts from api, send in res
         try {
-            const blogPosts = await PostsService.getAllPosts(req);
-            return res.status(200).json({
-                blogPosts,
-                msg: `All blog posts with tag ${req.query.tag}`
-            });
+            const posts = await PostsService.getAllPosts();
+            return res.status(200).json({ posts });
         } catch (e) {
             return res.status(404).json({
-                msg: `Could not fetch blog posts. ${e}`
+                msg: `Could not fetch posts. ${e}`
             });
         }
-
     }
 
     static async makePost(req, res) {
+        //auth and user id in param
+        try {
+            //verifying request query 
+            if (req.params.userId == undefined) {
+                return res.status(400).json({ error: 'No userId specified' });
+            }
 
+            //verifying request body 
+            const { error } = postValidator(req.body);
+
+            if (error) {
+                return res.status(400).json({ error: error.details[0].message });
+            }
+
+            const post = await PostsService.createPost(req, req.params.userId);
+
+            return res.status(200).json({
+                post: post,
+                msg: `post successfully created`
+            });
+        } catch (e) {
+            return res.status(400).json({
+                msg: `Could not create post: ${e}`
+            });
+        }
     }
 
     static async search(req, res) {
+        //qeury param = search
+        try {
+            //verifying request query 
+            if (req.params.query == undefined) {
+                return res.status(400).json({ error: 'No search query specified' });
+            }
 
+            const posts = await PostsService.searchPosts(req.params.query);
+
+            return res.status(200).json({ posts: posts, });
+        } catch (e) {
+            return res.status(400).json({
+                msg: `error searching posts: ${e}`
+            });
+        }
     }
 
     static async fetchDiscussion(req, res) {
-        //use selected posts id
+        // posts id in param
+        try {
+            //verifying request query 
+            if (req.params.postId == undefined) {
+                return res.status(400).json({ error: 'No postId specified' });
+            }
 
+            const comments = await PostsService.getDiscussion(req.params.postId);
+
+            return res.status(200).json({ discussion: comments });
+        } catch (e) {
+            return res.status(400).json({
+                msg: `error finding discussion: ${e}`
+            });
+        }
     }
 
     static async comment(req, res) {
+        //auth
+        try {
+            //verifying request body 
+            const { error } = commentValidator(req.body);
 
+            if (error) {
+                return res.status(400).json({ error: error.details[0].message });
+            }
+
+            const comment = await PostsService.createComment(req);
+
+            return res.status(200).json({
+                comment: comment,
+                msg: `comment successfully created`
+            });
+        } catch (e) {
+            return res.status(400).json({
+                msg: `Could not create comment: ${e}`
+            });
+        }
     }
 
     static async deletePost(req, res) {
+        //auth and post id in param
+        try {
+            //verifying request query 
+            if (req.params.postId == undefined) {
+                return res.status(400).json({ error: 'No postId specified' });
+            }
 
+            const deleted = await PostsService.deletePost(req.params.postId);
+
+            if (deleted) {
+                return res.status(200).json({ status: 'successfully deleted post' });
+            } else {
+                return res.status(400).json({ status: 'could not find post, check postId' });
+            }
+            
+        } catch (e) {
+            return res.status(400).json({
+                msg: `error deleting post: ${e}`
+            });
+        }
     }
 
     static async deleteComment(req, res) {
+        //auth and comment id in param
+        try {
+            //verifying request query 
+            if (req.params.commentId == undefined) {
+                return res.status(400).json({ error: 'No commentId specified' });
+            }
 
+            const deleted = await PostsService.deleteComment(req.params.postId);
+
+            if (deleted) {
+                return res.status(200).json({ status: 'successfully deleted comment' });
+            } else {
+                return res.status(400).json({ status: 'could not find comment, check commentId' });
+            }
+            
+        } catch (e) {
+            return res.status(400).json({
+                msg: `error deleting comment: ${e}`
+            });
+        }
     }
 
 }

@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
- 
-import User from './user';
-import Comment from './comment';
-import Post from './post';
+import dotenv from 'dotenv';
+import User from './user.js';
+import Comment from './comment.js';
+import Post from './post.js';
 
-DB_URL = 'mongodb+srv://zoe:F7vHwnL5iBjd@sfep-db.t6rsu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+dotenv.config();
 
 const connectDb = () => {
-  return mongoose.connect(process.env.DB_URL);
+  return mongoose.connect(process.env.DB_URL, { useNewUrlParser: true , useUnifiedTopology: true});
 };
  
 const models = { User, Comment, Post };
