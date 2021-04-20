@@ -34,7 +34,7 @@ class UserController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not create user: ${e}`
+                error: `Could not create user: ${e}`
             });
         }
     }
@@ -72,7 +72,7 @@ class UserController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not sign in user: ${e}`
+                error: `Could not sign in user: ${e}`
             });
         }
     }
@@ -94,7 +94,7 @@ class UserController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not find user: ${e}`
+                error: `Could not find user: ${e}`
             });
         }
     }
@@ -124,7 +124,7 @@ class UserController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not update user: ${e}`
+                error: `Could not update user: ${e}`
             });
         }
     }
@@ -145,7 +145,7 @@ class UserController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not update user: ${e}`
+                error: `Could not update user: ${e}`
             });
         }
     }
