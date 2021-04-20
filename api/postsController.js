@@ -9,7 +9,7 @@ class PostsController {
             return res.status(200).json({ posts });
         } catch (e) {
             return res.status(404).json({
-                msg: `Could not fetch posts. ${e}`
+                error: `Could not fetch posts. ${e}`
             });
         }
     }
@@ -37,7 +37,7 @@ class PostsController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not create post: ${e}`
+                error: `Could not create post: ${e}`
             });
         }
     }
@@ -55,7 +55,7 @@ class PostsController {
             return res.status(200).json({ posts: posts, });
         } catch (e) {
             return res.status(400).json({
-                msg: `error searching posts: ${e}`
+                error: `error searching posts: ${e}`
             });
         }
     }
@@ -73,7 +73,7 @@ class PostsController {
             return res.status(200).json({ discussion: comments });
         } catch (e) {
             return res.status(400).json({
-                msg: `error finding discussion: ${e}`
+                error: `error finding discussion: ${e}`
             });
         }
     }
@@ -96,7 +96,7 @@ class PostsController {
             });
         } catch (e) {
             return res.status(400).json({
-                msg: `Could not create comment: ${e}`
+                error: `Could not create comment: ${e}`
             });
         }
     }
@@ -119,7 +119,7 @@ class PostsController {
             
         } catch (e) {
             return res.status(400).json({
-                msg: `error deleting post: ${e}`
+                error: `error deleting post: ${e}`
             });
         }
     }
@@ -137,12 +137,12 @@ class PostsController {
             if (deleted) {
                 return res.status(200).json({ status: 'successfully deleted comment' });
             } else {
-                return res.status(400).json({ status: 'could not find comment, check commentId' });
+                return res.status(400).json({ error: 'could not find comment, check commentId' });
             }
             
         } catch (e) {
             return res.status(400).json({
-                msg: `error deleting comment: ${e}`
+                error: `error deleting comment: ${e}`
             });
         }
     }
