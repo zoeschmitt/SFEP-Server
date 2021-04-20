@@ -114,7 +114,7 @@ class PostsController {
             if (deleted) {
                 return res.status(200).json({ status: 'successfully deleted post' });
             } else {
-                return res.status(400).json({ status: 'could not find post, check postId' });
+                return res.status(400).json({ error: 'could not find post, check postId' });
             }
             
         } catch (e) {

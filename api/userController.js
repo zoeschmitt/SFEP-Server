@@ -66,8 +66,8 @@ class UserController {
             );
 
             return res.status(200).json({
-                user,
-                token,
+                user: user,
+                token: token,
                 msg: `Signed In`
             });
         } catch (e) {
@@ -89,7 +89,7 @@ class UserController {
             if (!user) return res.status(400).json({ error: "Incorrect Email" });
 
             return res.status(200).json({
-                user,
+                user: user,
                 msg: `User found`
             });
         } catch (e) {
@@ -119,7 +119,7 @@ class UserController {
             const user = await UserService.updateUser(req.params.userId, req, password)
 
             return res.status(200).json({
-                user,
+                user: user,
                 msg: `User updated`
             });
         } catch (e) {
@@ -140,7 +140,7 @@ class UserController {
             const user = await UserService.logoutUser(req.params.userId);
 
             return res.status(200).json({
-                user,
+                user: user,
                 msg: `User logged out`
             });
         } catch (e) {
