@@ -9,6 +9,8 @@ const routes = Router();
 //routes.use('/api/update/:userId', verifyToken, UserController.update);
 routes.use('/api/update/:userId', verifyToken);
 routes.use('/api/post/:userId', verifyToken);
+routes.post('/api/updateLikes/:userId', verifyToken);
+routes.post('/api/updateCredibility/:userId', verifyToken);
 routes.use('/api/comment', verifyToken);
 routes.use('/api/deletePost/:postId', verifyToken);
 routes.use('/api/deleteComment/:commentId', verifyToken);
@@ -22,6 +24,8 @@ routes.post('/api/logout/:userId', UserController.logout);
 
 routes.get('/api/posts', PostsController.fetchPosts);
 routes.post('/api/post/:userId', PostsController.makePost);
+routes.post('/api/updateLikes/:userId', PostsController.updatePostLikes);
+routes.post('/api/updateCredibility/:userId', PostsController.updatePostCredibility);
 routes.get('/api/search/:query', PostsController.search);
 routes.get('/api/discussion/:postId', PostsController.fetchDiscussion);
 routes.post('/api/comment', PostsController.comment);

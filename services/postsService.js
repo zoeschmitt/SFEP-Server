@@ -14,15 +14,79 @@ class PostsService {
             body: req.body.body,
             userName: req.body.userName,
             userTitle: req.body.userTitle,
-            likes: 0,
-            dislikes: 0,
-            credibleVotes: 0,
-            uncredibleVotes: 0
+            likes: [],
+            dislikes: [],
+            credibleVotes: [],
+            uncredibleVotes: []
         });
 
         await post.save();
 
         return post;
+    }
+
+    static async updateLikes(req, userId) {
+
+        const post = await models.Post.findById(req.body.postId);
+        console.log(post);
+        if (req.body.updateType == -1) {
+            //dislike
+            //check if already disliked
+            if (post.dislikes.includes(userId)) return;
+            //check if in likes, if so then remoce
+            if (post.likes.includes(userId)) {
+                post.likes.remove(userId)
+            }
+            post.dislikes.push(userId)
+        } else {
+            //like
+            //check if already liked
+            if (post.likes.includes(userId)) return;
+            //check if in likes, if so then remoce
+            if (post.dislikes.includes(userId)) {
+                post.dislikes.remove(userId)
+            }
+            post.likes.push(userId)
+        }
+        await post.save();
+
+        //const updateBody = (req.body.updateType == -1 ? { "$push": { "dislikes": userId } } : { "$push": { "likes": userId } });
+
+        // models.Post.findByIdAndUpdate(req.body.postId, updateBody, function (err) {
+        //     console.log(err);
+        // })
+    }
+
+    static async updateCredibility(req, userId) {
+
+        const post = await models.Post.findById(req.body.postId);
+        console.log(post);
+        if (req.body.updateType == -1) {
+            //dislike
+            //check if already disliked
+            if (post.uncredibleVotes.includes(userId)) return;
+            //check if in likes, if so then remoce
+            if (post.credibleVotes.includes(userId)) {
+                post.credibleVotes.remove(userId)
+            }
+            post.uncredibleVotes.push(userId)
+        } else {
+            //like
+            //check if already liked
+            if (post.credibleVotes.includes(userId)) return;
+            //check if in likes, if so then remoce
+            if (post.uncredibleVotes.includes(userId)) {
+                post.uncredibleVotes.remove(userId)
+            }
+            post.credibleVotes.push(userId)
+        }
+        await post.save();
+
+        // const updateBody = (req.body.updateType == -1 ? { "$push": { "uncredibleVotes": userId } } : { "$push": { "credibleVotes": userId } });
+
+        // models.Post.findByIdAndUpdate(req.body.postId, updateBody, function (err) {
+        //     console.log(err);
+        // })
     }
 
     static async searchPosts(query) {

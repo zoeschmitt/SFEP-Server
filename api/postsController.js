@@ -42,6 +42,54 @@ class PostsController {
         }
     }
 
+    static async updatePostLikes(req, res) {
+        //auth and user id in param
+        try {
+            //verifying request query 
+            if (req.params.userId == undefined) {
+                return res.status(400).json({ error: 'No userId specified' });
+            }
+
+            if (req.body.postId == null || req.body.updateType == null) {
+                return res.status(400).json({ error: 'Invalid Request Body' });
+            }
+
+            await PostsService.updateLikes(req, req.params.userId);
+
+            return res.status(200).json({
+                msg: `updated successfully`
+            });
+        } catch (e) {
+            return res.status(400).json({
+                error: `update failed: ${e}`
+            });
+        }
+    }
+
+    static async updatePostCredibility(req, res) {
+        //auth and user id in param
+        try {
+            //verifying request query 
+            if (req.params.userId == undefined) {
+                return res.status(400).json({ error: 'No userId specified' });
+            }
+
+            if (req.body.postId == null || req.body.updateType == null) {
+                return res.status(400).json({ error: 'Invalid Request Body' });
+            }
+
+            await PostsService.updateCredibility(req, req.params.userId);
+
+            return res.status(200).json({
+                msg: `updated successfully`
+            });
+        } catch (e) {
+            return res.status(400).json({
+                error: `update failed: ${e}`
+            });
+        }
+    }
+
     static async search(req, res) {
         //qeury param = search
         try {
