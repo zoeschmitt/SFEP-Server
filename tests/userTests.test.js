@@ -47,7 +47,7 @@ describe('User Tests', function () {
             });
     });
 
-    test('POST /api/user', async (done) => {
+    test('GET /api/user', async (done) => {
         request(app)
             .get(`/api/user/${testUserId}`)
             .expect(200)
@@ -73,7 +73,6 @@ describe('User Tests', function () {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-                console.log(res);
                 return done();
             });
     });

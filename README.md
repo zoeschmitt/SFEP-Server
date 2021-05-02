@@ -10,13 +10,25 @@ npm install
 ```
 
 ```bash
-node server.js
+npm start
 ```
 
 ### General running
 
 ```bash
-node server.js
+npm start
+```
+
+### Run tests
+
+User tests
+```bash
+npm test userTests.test.js
+```
+
+Posts/Comments tests
+```bash
+npm test postTests.test.js
 ```
 
 ## Resources
