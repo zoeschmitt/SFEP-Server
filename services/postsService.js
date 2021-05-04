@@ -49,12 +49,6 @@ class PostsService {
             post.likes.push(userId)
         }
         await post.save();
-
-        //const updateBody = (req.body.updateType == -1 ? { "$push": { "dislikes": userId } } : { "$push": { "likes": userId } });
-
-        // models.Post.findByIdAndUpdate(req.body.postId, updateBody, function (err) {
-        //     console.log(err);
-        // })
     }
 
     static async updateCredibility(req, userId) {
@@ -81,12 +75,6 @@ class PostsService {
             post.credibleVotes.push(userId)
         }
         await post.save();
-
-        // const updateBody = (req.body.updateType == -1 ? { "$push": { "uncredibleVotes": userId } } : { "$push": { "credibleVotes": userId } });
-
-        // models.Post.findByIdAndUpdate(req.body.postId, updateBody, function (err) {
-        //     console.log(err);
-        // })
     }
 
     static async searchPosts(query) {

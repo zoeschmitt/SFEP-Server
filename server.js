@@ -1,8 +1,10 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import routes from './routes/index.js';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 import models, { connectDb } from './models/index.js';
 const port = process.env.port || 8000;
 app.use(express.urlencoded({ extended: true }));
